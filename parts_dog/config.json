@@ -1,0 +1,17 @@
+{
+ "name": "개",
+ "scale": 0.32,
+ "screen_quad": [[155, 1042], [445, 1036], [452, 1116], [150, 1124]],
+ "blink": null,
+ "trail_color": "#888888",
+ "hard_alpha": true,
+ "timer": {"enabled": true, "idle_sec": 15},
+ "card": {
+  "border": "#3a3a3a",
+  "text": "#2b2b2b",
+  "sub": "#9a9a9a",
+  "track": "#ececec",
+  "fill": "#555555",
+  "deco": "dog"
+ }
+}
