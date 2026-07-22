@@ -31,13 +31,28 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from pynput import keyboard, mouse
 
-try:
-    ctypes.windll.shcore.SetProcessDpiAwareness(2)  # PER_MONITOR_DPI_AWARE
-except Exception:
+IS_WIN = sys.platform.startswith("win")
+IS_MAC = sys.platform == "darwin"
+
+if IS_WIN:
     try:
-        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        ctypes.windll.shcore.SetProcessDpiAwareness(2)  # PER_MONITOR_DPI_AWARE
     except Exception:
-        pass
+        try:
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        except Exception:
+            pass
+
+_MAC_CG = None
+if IS_MAC:                       # 커서·유휴 시간을 얻는 macOS 프레임워크
+    try:
+        from ctypes import util as _cutil
+        _MAC_CG = ctypes.cdll.LoadLibrary(_cutil.find_library("CoreGraphics"))
+        _MAC_CG.CGEventSourceSecondsSinceLastEventType.restype = ctypes.c_double
+        _MAC_CG.CGEventSourceSecondsSinceLastEventType.argtypes = [
+            ctypes.c_uint32, ctypes.c_uint32]
+    except Exception:
+        _MAC_CG = None
 
 if getattr(sys, "frozen", False) and not os.path.exists(os.path.abspath(__file__)):
     # PyInstaller 번들 내부에서 임포트된 경우 (자동 업데이트로 받은 파일이면
@@ -379,61 +394,209 @@ class PenSound:
         wm.waveOutClose(h)
 
 
-ctypes.windll.user32.MonitorFromPoint.argtypes = [_POINT, ctypes.c_uint32]
-ctypes.windll.user32.MonitorFromPoint.restype = ctypes.c_void_p
+class _MacSoundPool:
+    """macOS 소리 재생 — NSSound 사본을 돌려가며 겹쳐 재생한다.
+
+    winmm(waveOut)은 윈도우 전용이라 맥에서는 AppKit의 NSSound를 쓴다.
+    같은 NSSound를 연속 호출하면 이어붙지 않고 다시 시작되므로, 파일마다
+    사본을 몇 개 두고 번갈아 재생해 타자처럼 빠른 연타도 겹치게 한다.
+    """
+
+    COPIES = 3
+
+    def __init__(self, paths, volume):
+        from AppKit import NSSound
+        self.pool = []
+        for p in paths:
+            row = []
+            for _ in range(self.COPIES):
+                snd = NSSound.alloc().initWithContentsOfFile_byReference_(p, True)
+                if snd is not None:
+                    row.append(snd)
+            if row:
+                self.pool.append(row)
+        if not self.pool:
+            raise ValueError("재생 가능한 wav가 없음")
+        self._turn = [0] * len(self.pool)
+        self.set_volume(volume)
+
+    def set_volume(self, volume):
+        self.volume = max(0.0, min(float(volume), 100.0))
+        g = self.volume / 100.0
+        for row in self.pool:
+            for snd in row:
+                try:
+                    snd.setVolume_(g)
+                except Exception:
+                    pass
+
+    def _fire(self, idx):
+        if self.volume <= 0 or not self.pool:
+            return
+        row = self.pool[idx % len(self.pool)]
+        snd = row[self._turn[idx % len(self.pool)] % len(row)]
+        self._turn[idx % len(self.pool)] += 1
+        try:
+            if snd.isPlaying():
+                snd.stop()
+            snd.play()
+        except Exception:
+            pass
+
+    def _all_stop(self):
+        for row in self.pool:
+            for snd in row:
+                try:
+                    snd.stop()
+                except Exception:
+                    pass
+
+
+class MacSoundPack(_MacSoundPool):
+    """맥용 Mechvibes 팩 재생기 (SoundPack과 같은 인터페이스)."""
+
+    def __init__(self, folder, volume=60):
+        with open(os.path.join(folder, "config.json"), encoding="utf-8") as fp:
+            cfg = json.load(fp)
+        if cfg.get("key_define_type", "multi") != "multi":
+            raise ValueError("single 타입 팩 미지원")
+        names, paths = [], []
+        for v in cfg.get("defines", {}).values():
+            if isinstance(v, str) and v and v not in names:
+                names.append(v)
+        for name in names:
+            p = os.path.join(folder, name)
+            if name.lower().endswith(".wav") and os.path.exists(p):
+                paths.append(p)
+        super().__init__(paths, volume)
+
+    def play(self, key):
+        self._fire(hash(str(key)) % max(len(self.pool), 1))
+
+    def reap(self):
+        pass                      # NSSound는 스스로 정리된다
+
+    def close(self):
+        self._all_stop()
+
+
+class MacPenSound(_MacSoundPool):
+    """맥용 펜 긋는 소리 (PenSound와 같은 인터페이스)."""
+
+    def __init__(self, folder, volume=35):
+        names = [f for f in sorted(os.listdir(folder)) if f.lower().endswith(".wav")]
+        clips = [f for f in names if f.lower().startswith("clip")] or names
+        paths = [os.path.join(folder, f) for f in clips]
+        if not paths:
+            raise ValueError("펜 소리 wav 없음")
+        super().__init__(paths, volume)
+
+    def play(self):
+        self._fire(random.randrange(len(self.pool)))
+
+    def stop(self):
+        self._all_stop()
+
+
+if IS_MAC:                        # 맥에서는 같은 이름으로 맥 구현을 쓴다
+    SoundPack, PenSound = MacSoundPack, MacPenSound
+
+
+if IS_WIN:
+    ctypes.windll.user32.MonitorFromPoint.argtypes = [_POINT, ctypes.c_uint32]
+    ctypes.windll.user32.MonitorFromPoint.restype = ctypes.c_void_p
+
+_TK_ROOT = None                  # 맥에서 커서·화면 크기를 Tk로 얻기 위한 참조
 
 
 def cursor_pos():
-    pt = _POINT()
-    ctypes.windll.user32.GetCursorPos(ctypes.byref(pt))
-    return pt.x, pt.y
+    if IS_WIN:
+        pt = _POINT()
+        ctypes.windll.user32.GetCursorPos(ctypes.byref(pt))
+        return pt.x, pt.y
+    if _TK_ROOT is not None:      # 맥: Tk가 전역 커서 좌표를 알려준다
+        try:
+            return _TK_ROOT.winfo_pointerxy()
+        except Exception:
+            pass
+    return 0, 0
 
 
 def idle_seconds():
     """마지막 입력(마우스·키보드·펜) 이후 경과 초."""
     try:
-        info = _LASTINPUTINFO()
-        info.cbSize = ctypes.sizeof(_LASTINPUTINFO)
-        ctypes.windll.user32.GetLastInputInfo(ctypes.byref(info))
-        return max(ctypes.windll.kernel32.GetTickCount() - info.dwTime, 0) / 1000.0
+        if IS_WIN:
+            info = _LASTINPUTINFO()
+            info.cbSize = ctypes.sizeof(_LASTINPUTINFO)
+            ctypes.windll.user32.GetLastInputInfo(ctypes.byref(info))
+            return max(ctypes.windll.kernel32.GetTickCount() - info.dwTime, 0) / 1000.0
+        if _MAC_CG is not None:
+            # kCGEventSourceStateCombinedSessionState=0, kCGAnyInputEventType=0xFFFFFFFF
+            return float(_MAC_CG.CGEventSourceSecondsSinceLastEventType(
+                0, 0xFFFFFFFF))
     except Exception:
-        return 0.0
+        pass
+    return 0.0
 
 
 def foreground_process():
     """앞에 떠 있는 창의 프로세스 실행파일 이름 (소문자). 실패 시 ''."""
     try:
-        u, k = ctypes.windll.user32, ctypes.windll.kernel32
-        hwnd = u.GetForegroundWindow()
-        pid = ctypes.c_ulong()
-        u.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
-        h = k.OpenProcess(0x1000, False, pid.value)  # QUERY_LIMITED_INFORMATION
-        if not h:
-            return ""
-        try:
-            buf = ctypes.create_unicode_buffer(260)
-            size = ctypes.c_ulong(260)
-            if k.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(size)):
-                return os.path.basename(buf.value).lower()
-        finally:
-            k.CloseHandle(h)
+        if IS_WIN:
+            u, k = ctypes.windll.user32, ctypes.windll.kernel32
+            hwnd = u.GetForegroundWindow()
+            pid = ctypes.c_ulong()
+            u.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+            h = k.OpenProcess(0x1000, False, pid.value)  # QUERY_LIMITED_INFO
+            if not h:
+                return ""
+            try:
+                buf = ctypes.create_unicode_buffer(260)
+                size = ctypes.c_ulong(260)
+                if k.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(size)):
+                    return os.path.basename(buf.value).lower()
+            finally:
+                k.CloseHandle(h)
+        elif IS_MAC:
+            return _mac_front_app()
     except Exception:
         pass
     return ""
 
 
-def monitor_at(x, y):
+def _mac_front_app():
+    """맨 앞 앱 이름 (소문자). PyObjC가 있으면 그걸로, 없으면 빈 문자열."""
     try:
-        hmon = ctypes.windll.user32.MonitorFromPoint(_POINT(x, y), 2)
-        mi = _MONITORINFO()
-        mi.cbSize = ctypes.sizeof(_MONITORINFO)
-        if ctypes.windll.user32.GetMonitorInfoW(hmon, ctypes.byref(mi)):
-            r = mi.rcMonitor
-            return r.left, r.top, r.right, r.bottom
+        from AppKit import NSWorkspace
+        app = NSWorkspace.sharedWorkspace().frontmostApplication()
+        if app is None:
+            return ""
+        name = app.localizedName() or app.bundleIdentifier() or ""
+        return str(name).lower()
     except Exception:
-        pass
-    u = ctypes.windll.user32
-    return 0, 0, u.GetSystemMetrics(0), u.GetSystemMetrics(1)
+        return ""
+
+
+def monitor_at(x, y):
+    if IS_WIN:
+        try:
+            hmon = ctypes.windll.user32.MonitorFromPoint(_POINT(x, y), 2)
+            mi = _MONITORINFO()
+            mi.cbSize = ctypes.sizeof(_MONITORINFO)
+            if ctypes.windll.user32.GetMonitorInfoW(hmon, ctypes.byref(mi)):
+                r = mi.rcMonitor
+                return r.left, r.top, r.right, r.bottom
+        except Exception:
+            pass
+        u = ctypes.windll.user32
+        return 0, 0, u.GetSystemMetrics(0), u.GetSystemMetrics(1)
+    if _TK_ROOT is not None:      # 맥: 주 화면 기준 (다중 모니터는 추후)
+        try:
+            return (0, 0, _TK_ROOT.winfo_screenwidth(),
+                    _TK_ROOT.winfo_screenheight())
+        except Exception:
+            pass
+    return 0, 0, 1920, 1080
 
 
 UPDATE_REPOS = {                 # 선물 캐릭터 자동 업데이트 배포 레포
@@ -602,15 +765,27 @@ class Mascot:
         self.W, self.H = self.cw_px, self.ch_px + self.oy
 
         self.root = tk.Tk()
+        globals()["_TK_ROOT"] = self.root      # 커서·화면 크기 조회용
         self.root.overrideredirect(True)
         self.root.attributes("-topmost", bool(self.us["topmost"]))
-        self.root.attributes("-transparentcolor", TRANSPARENT)
+        # 투명 배경: 윈도우는 색상키, 맥은 Tk의 진짜 투명 속성
+        bg = TRANSPARENT
+        if IS_MAC:
+            bg = self._setup_mac_window()
+        else:
+            self.root.attributes("-transparentcolor", TRANSPARENT)
+        self.canvas_bg = bg
         sw, sh = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
         self.root.geometry(f"{self.W}x{self.H}+{sw - self.W - 50}+{sh - self.H - 70}")
 
+        kw = {"bg": bg} if bg else {}
         self.canvas = tk.Canvas(self.root, width=self.W, height=self.H,
-                                bg=TRANSPARENT, highlightthickness=0)
+                                highlightthickness=0, **kw)
         self.canvas.pack()
+        if IS_MAC:                            # 제목 표시줄 제거 후 위치 재적용
+            self._mac_borderless()
+            self.root.geometry(
+                f"{self.W}x{self.H}+{sw - self.W - 50}+{sh - self.H - 70}")
 
         self._tw_cache = {}          # 상태 텍스트 폭 캐시 (캔버스로 측정)
 
@@ -622,6 +797,9 @@ class Mascot:
         self.smile_until = 0.0       # 웃는 표정 종료 시각
         self.celebrate_until = 0.0   # 축하 연출 종료 시각
         self._fail = {}              # 구역별 실패 횟수 (3회면 그 구역만 끔)
+        self.shadow_img_type = None  # 타자 자세용 그림자 (깃펜 없음)
+        self._shadow_base = None
+        self._shadow_typing = False
         self._pen_draw = None        # 펜 손을 머리 뒤에 그릴 때 쓰는 임시 보관
         self._pet_drawn = []         # 이번 프레임에 그린 반려동물 (그림자용)
         self._pet_sh_cache = {}
@@ -709,10 +887,10 @@ class Mascot:
 
         # ── 그림자 레이어 창 ─────────────────────────────────────────────
         self.root.update_idletasks()
-        self._main_hwnd = int(self.root.wm_frame(), 16)
+        self._main_hwnd = int(self.root.wm_frame(), 16) if IS_WIN else 0
         self.shadow = None
         self._z_check = 0.0
-        if self.shadow_img is not None:
+        if self.shadow_img is not None and IS_WIN:
             # 그림자 이미지가 P만큼 여백을 두므로, 창을 (offset - P)에 놓아 정렬
             self.shadow = ShadowLayer(self.root, self.shadow_img,
                                       offset=(7 - SHADOW_PAD, 9 - SHADOW_PAD))
@@ -721,6 +899,9 @@ class Mascot:
         self._last_pos = None
 
         self._apply_autostart()          # exe 배포본이면 시작프로그램 등록
+
+        if os.environ.get("MASCOT_DEBUG") == "1":
+            self.root.after(4000, self._dump_debug)
 
         if preview:
             self.root.after(600, self._preview_shots)
@@ -737,6 +918,7 @@ class Mascot:
         if not self.cfg.get("hard_alpha"):
             return im
         from PIL import ImageChops, ImageFilter
+        im = self._avoid_key(im)
         a = im.getchannel("A")
         solid = a.point(lambda v: 255 if v >= 128 else 0)
         # 반투명하게 그려진 '내부 선'(옅은 음영 등)은 살린다 — 주변이 대부분
@@ -748,6 +930,26 @@ class Mascot:
         im = im.copy()
         im.putalpha(self._fill_holes(ImageChops.lighter(solid, inner)))
         return im
+
+    @staticmethod
+    def _avoid_key(im):
+        """투명 색상키와 똑같은 색의 픽셀을 1만큼 비껴 놓는다.
+
+        창 투명화는 이 색을 통째로 뚫으므로, 그림 안에 우연히 같은 색이 있으면
+        그 점만 배경이 비쳐 흰 점처럼 보인다(퀸시 얼굴 흰 점 사건).
+        """
+        from PIL import ImageChops
+        kr, kg, kb = (int(TRANSPARENT[i:i + 2], 16) for i in (1, 3, 5))
+        r, g, b, al = im.split()
+        eq = ImageChops.multiply(
+            ImageChops.multiply(r.point(lambda v: 255 if v == kr else 0),
+                                g.point(lambda v: 255 if v == kg else 0)),
+            b.point(lambda v: 255 if v == kb else 0))
+        if not eq.getbbox():
+            return im
+        bump = eq.point(lambda v: 1 if v else 0)
+        nb = ImageChops.add(b, bump) if kb < 255 else ImageChops.subtract(b, bump)
+        return Image.merge("RGBA", (r, g, nb, al))
 
     @staticmethod
     def _fill_holes(solid):
@@ -806,8 +1008,9 @@ class Mascot:
         self._tilt_cache = {}
         self._tilt_max = 0.0
         base = "head" if self.has.get("head") else "body_open"
-        hb = pil_cache[base].split()[3].getbbox()
-        hx, hy = self.layout[base]["pos"]
+        base_im = pil_cache.get(base)
+        hb = base_im.split()[3].getbbox() if base_im is not None else None
+        hx, hy = self.layout.get(base, {}).get("pos", (0, 0))
         # 머리(없으면 몸통) 실루엣 상자 — zzZ 위치·기울임 축의 기준
         self._head_box = ((hx * s + hb[0], hy * s + hb[1],
                            hx * s + hb[2], hy * s + hb[3]) if hb else
@@ -819,7 +1022,10 @@ class Mascot:
         # 회전 손 파츠: 어깨(최상단) 앵커 기준으로 회전 — 어깨가 몸에서 안 떨어짐
         self.hop = {}
         for name in ("arm_key", "arm_right_typing"):
-            im = load_pil(name)
+            try:
+                im = load_pil(name)
+            except Exception:
+                continue
             ab = im.split()[3].getbbox()
             top = ab[1]
             row = im.crop((0, top, im.width, min(top + 3, im.height))).split()[3].getbbox()
@@ -831,7 +1037,10 @@ class Mascot:
                               "off": (-m, 0), "cache": {}}
 
         # 오른팔: 늘리기용
-        self.arm_pil = load_pil("arm_right")
+        try:
+            self.arm_pil = load_pil("arm_right")
+        except Exception:
+            self.arm_pil = None
         self._arm_cache = {}
         # 왼손 위치 미세 보정 (캔버스 px, config의 arm_key_offset)
         ko = self.cfg.get("arm_key_offset", [0, 0])
@@ -855,6 +1064,9 @@ class Mascot:
             self.has["hat"] = False
             return
         base = "head" if self.has.get("head") else "body_open"
+        if base not in pil_cache:
+            self.has["hat"] = False
+            return
         bb = pil_cache[base].split()[3].getbbox()
         head_w = (bb[2] - bb[0]) if bb else self.W
         im = Image.open(path).convert("RGBA")
@@ -959,6 +1171,9 @@ class Mascot:
         if not (self.has.get("pet1") or self.has.get("pet2")):
             self._pet_mask = None
             return
+        if "desk" not in pil_cache:
+            self._pet_mask = None
+            return
         desk = pil_cache["desk"]
         W, H = desk.size
         alpha = desk.split()[3].point(lambda v: 255 if v > 40 else 0)
@@ -1055,19 +1270,32 @@ class Mascot:
 
         가장자리 파츠(귀 등)의 그림자가 잘리지 않도록 여백(P)을 두고 그린다.
         """
-        self.shadow_img = None
+        self.shadow_img = self.shadow_img_type = None
         if not self.us.get("shadow", True):
             return
+        for typing in (False, True):
+            self._compose_shadow(typing)
+        self._shadow_base = self.shadow_img
+        self._shadow_typing = False
+
+    def _compose_shadow(self, typing):
+        """그림자 실루엣 한 벌. typing이면 펜 손 대신 타자 팔로 그린다."""
         from PIL import ImageDraw, ImageFilter
         P = SHADOW_PAD
         comp = Image.new("RGBA", (self.W + 2 * P, self.H + 2 * P), (0, 0, 0, 0))
-        for name in ("body_open", "scarf", "lashes", "hair", "head",
-                     "desk", "arm_pen"):
+        parts = ["body_open", "scarf", "lashes", "hair", "head", "desk"]
+        if not typing:
+            parts.append("arm_pen")
+        for name in parts:
             if name in self._pil_cache:
                 x, y = self._pos(name)
                 comp.alpha_composite(self._pil_cache[name], (round(x) + P, round(y) + P))
-        for name in ("arm_right", "arm_key"):
-            im = self._load_pil(name)
+        arms = ["arm_key", "arm_right_typing" if typing else "arm_right"]
+        for name in arms:
+            try:
+                im = self._load_pil(name)
+            except Exception:
+                continue
             x, y = self._pos(name)
             if name == "arm_key":
                 x += self.arm_key_off[0]
@@ -1084,7 +1312,11 @@ class Mascot:
         a = comp.getchannel("A").filter(ImageFilter.GaussianBlur(7))
         a = a.point(lambda v: int(v * 0.30))
         black = Image.new("RGB", comp.size, (0, 0, 0))
-        self.shadow_img = Image.merge("RGBA", (*black.split(), a))
+        img = Image.merge("RGBA", (*black.split(), a))
+        if typing:
+            self.shadow_img_type = img
+        else:
+            self.shadow_img = img
 
     def _card_geom(self):
         """현재 타이머 카드의 위치·크기. 시계 펼침이면 세로 직사각형."""
@@ -1368,7 +1600,7 @@ class Mascot:
             p1, p2 = (cx + 1, cy - 28), (cx + 24, cy - 16)
         else:
             p1, p2 = (cx - 4, cy - 26), (cx + 1, cy - 33)
-        left, right, N = [], [], 8
+        left, right, cap, N = [], [], [], 8
         for i in range(N + 1):
             t = i / N
             u = 1 - t
@@ -1377,11 +1609,18 @@ class Mascot:
             dx = 2 * u * (p1[0] - p0[0]) + 2 * t * (p2[0] - p1[0])
             dy = 2 * u * (p1[1] - p0[1]) + 2 * t * (p2[1] - p1[1])
             n = math.hypot(dx, dy) or 1.0
-            nx, ny = -dy / n, dx / n
-            w = (1.6 + 5.6 * math.sin(math.pi * (0.16 + 0.8 * t))) * k
+            tx, ty = dx / n, dy / n
+            nx, ny = -ty, tx
+            w = (1.8 + 4.6 * math.sin(math.pi * (0.18 + 0.74 * t))) * k
             left.append((x + nx * w, y + ny * w))
             right.append((x - nx * w, y - ny * w))
-        return [v for p in left + right[::-1] for v in p]
+            if i == N:                       # 귀 끝은 반원으로 둥글게
+                for j in range(1, 5):
+                    th = math.pi * j / 5
+                    ct, st = math.cos(th), math.sin(th)
+                    cap.append((x + (ct * nx + st * tx) * w,
+                                y + (ct * ny + st * ty) * w))
+        return [v for p in left + cap + right[::-1] for v in p]
 
     def _draw_deco(self, x0, y0, x1, y1):
         """카드 위 장식(귀 등) — 캐릭터 컨셉별."""
@@ -1608,13 +1847,13 @@ class Mascot:
         now = time.time()
         if not drawn:
             if self._pet_sh_on:                  # 원래 그림자로 되돌린다
-                self.shadow.set_image(self.shadow_img)
+                self.shadow.set_image(self._shadow_base or self.shadow_img)
                 self._pet_sh_on = False
             return
         if now - self._pet_sh_t < 0.065:
             return
         self._pet_sh_t = now
-        comp = self.shadow_img.copy()
+        comp = (self._shadow_base or self.shadow_img).copy()
         b, sp = self.PET_BLUR, SHADOW_PAD
         for name, dy, x, y in drawn:
             comp.alpha_composite(self._pet_shadow_pil(name, dy),
@@ -1660,6 +1899,8 @@ class Mascot:
             return
         c = self.canvas
         name = "head" if self.has.get("head") else "body_open"
+        if name not in self._pil_cache:
+            return
         top = self._pos(name)[1] + yo
         bb = self._pil_cache[name].split()[3].getbbox()
         if bb:                          # 이미지 여백 제외한 실제 머리 꼭대기
@@ -1935,6 +2176,14 @@ class Mascot:
         except Exception:
             pass
 
+    def _put(self, name, x, y, anchor="nw"):
+        """파츠 이미지 그리기. 파일이 없으면 조용히 건너뛴다(업데이트 끊김 대비)."""
+        im = self.im.get(name)
+        if im is None:
+            return False
+        self.canvas.create_image(x, y, image=im, anchor=anchor)
+        return True
+
     def _safe(self, where, fn, *args):
         """부분 실패가 화면 전체를 지우지 못하게 — 3번 터지면 그 구역만 끈다."""
         if self._fail.get(where, 0) >= 3:
@@ -2044,6 +2293,13 @@ class Mascot:
         pen_typing = (now - self.last_pointer > 2.0) and (now - self.last_key < 1.8)
         if "pen" in f or f.get("type"):
             pen_typing = bool(f.get("type"))
+        # 타자 칠 때는 깃펜이 사라지므로 그 자리의 그림자도 같이 없앤다
+        if (self.shadow is not None and self.shadow_img_type is not None
+                and pen_typing != self._shadow_typing):
+            self._shadow_typing = pen_typing
+            self._shadow_base = self.shadow_img_type if pen_typing else self.shadow_img
+            if not self._pet_sh_on:
+                self.shadow.set_image(self._shadow_base)
 
         blinking = (sleeping or now < self.blink_until or f.get("blink", False)) \
             and (self.blink_cfg is not None or self.has.get("eyes_closed"))
@@ -2064,11 +2320,11 @@ class Mascot:
 
         # ── 몸 (+머리 없는 캐릭터는 여기서 얼굴까지) ─────────────────────
         # 개는 머리를 팔 위에 그려야 어깨가 안 튀어나오므로, 얼굴을 팔 뒤로 미룬다.
+        head_early = bool(self.cfg.get("arms_over_head") and self.has.get("head"))
         bx, by = self._pos("body_open")
-        c.create_image(bx, by + yo, image=self.im["body_open"], anchor="nw")
-        head_early = self.cfg.get("arms_over_head") and self.has.get("head")
+        self._safe("body", self._put, "body_open", bx, by + yo)
         if not self.has.get("head"):
-            self._draw_face(yo, pdx, pdy, blinking, smiling)
+            self._safe("face", self._draw_face, yo, pdx, pdy, blinking, smiling)
         elif head_early:                # 준사: 책상·팔이 머리 위 (PSD 순서)
             self._safe("head", self._draw_head, now, yo, pdx, pdy,
                        blinking, smiling, sleeping)
@@ -2078,8 +2334,9 @@ class Mascot:
             self._safe("pet", self._draw_pet, now)
 
         # ── 책상 (+옵션: 화면 낙서) ──────────────────────────────────────
-        c.create_image(*self._pos("desk"), image=self.im["desk"], anchor="nw")
-        if self.us["trail"]:
+        dx_, dy_ = self._pos("desk")
+        self._safe("desk", self._put, "desk", dx_, dy_)
+        if self.us.get("trail"):
             if self.strokes and now - self.last_drag > 12:
                 self.strokes = []
             for st in self.strokes:
@@ -2103,7 +2360,7 @@ class Mascot:
 
         if self.has.get("scarf"):       # 목도리 — 팔 위, 머리 아래
             sx, sy = self._pos("scarf")
-            c.create_image(sx, sy + yo, image=self.im["scarf"], anchor="nw")
+            self._safe("scarf", self._put, "scarf", sx, sy + yo)
 
         # ── 머리(팔 위) + 얼굴 — 개처럼 머리를 분리한 캐릭터 ──────────────
         # 머리를 팔보다 위에 그려 어깨가 머리 밖으로 튀어나오지 않게 한다.
@@ -2137,7 +2394,9 @@ class Mascot:
         """펜 추적 팔 또는 타이핑 팔 (환경 의존 코드가 많아 따로 격리)."""
         c = self.canvas
         # ── 오른손/오른팔: 펜 추적 또는 타이핑 파츠(어깨 축 회전) ────────
-        if pen_typing and "pen" not in f:
+        if self.arm_pil is None or "arm_key" not in self.hop:
+            return                      # 팔 파츠가 없으면 팔만 생략
+        if pen_typing and "pen" not in f and "arm_right_typing" in self.hop:
             # 양손 타이핑: 왼손을 먼저(아래), 오른팔-타자를 나중(위) 그림
             self._draw_left(now, f)
             self.pen_ang += (self.pen_ang_t - self.pen_ang) * 0.5
@@ -2206,7 +2465,7 @@ class Mascot:
         if not d:
             return
         px, py = d
-        self.canvas.create_image(px, py, image=self.im["arm_pen"], anchor="nw")
+        self._put("arm_pen", px, py)
         self._pen_draw = None
 
     def _draw_head(self, now, yo, pdx, pdy, blinking, smiling, sleeping):
@@ -2221,7 +2480,7 @@ class Mascot:
             self._draw_snot(now, yo, tilt, tdx)
         else:
             hx, hy = self._pos("head")
-            c.create_image(hx, hy + yo, image=self.im["head"], anchor="nw")
+            self._put("head", hx, hy + yo)
             self._draw_face(yo, pdx, pdy, blinking, smiling)
 
     def _draw_face(self, yo, pdx, pdy, blinking, smiling=False):
@@ -2234,20 +2493,20 @@ class Mascot:
                     continue
                 if name == "eyes_closed":
                     sx, sy = self._pos("smile")
-                    c.create_image(sx, sy + yo, image=self.im["smile"], anchor="nw")
+                    self._put("smile", sx, sy + yo)
                     drawn = True
                     continue
                 if not self.has.get(name) or name == "head":
                     continue
                 ox, oy_ = self._pos(name)
-                c.create_image(ox, oy_ + yo, image=self.im[name], anchor="nw")
+                self._put(name, ox, oy_ + yo)
             if not drawn:
                 sx, sy = self._pos("smile")
-                c.create_image(sx, sy + yo, image=self.im["smile"], anchor="nw")
+                self._put("smile", sx, sy + yo)
             return
         if not blinking:
             ex, ey = self._pos("pupils")
-            c.create_image(ex + pdx, ey + yo + pdy, image=self.im["pupils"], anchor="nw")
+            self._put("pupils", ex + pdx, ey + yo + pdy)
         elif self.blink_cfg is not None:
             (x0, y0, x1, y1), color = self.blink_cfg
             c.create_rectangle(x0, y0 + yo, x1, y1 + yo, fill=color, outline="")
@@ -2262,7 +2521,7 @@ class Mascot:
             elif not self.has.get(name):
                 continue
             ox, oy_ = self._pos(name)
-            c.create_image(ox, oy_ + yo, image=self.im[name], anchor="nw")
+            self._put(name, ox, oy_ + yo)
 
     def _draw_left(self, now, f):
         """왼손(키보드): 어깨 축 회전으로 키를 옮겨가며 타이핑."""
@@ -2590,9 +2849,11 @@ class Mascot:
             pass
 
     def _apply_autostart(self):
-        """윈도우 시작 시 자동 실행 등록/해제 (exe 배포본만, HKCU Run 키, 관리자 불필요)."""
+        """로그인 시 자동 실행 등록/해제 (배포본만). 윈도우=레지스트리, 맥=LaunchAgent."""
         if not getattr(sys, "frozen", False):
             return                       # 소스 실행(로컬)에서는 의미 없음
+        if IS_MAC:
+            return self._apply_autostart_mac()
         try:
             import winreg
             name = os.path.splitext(os.path.basename(sys.executable))[0]
@@ -2609,6 +2870,36 @@ class Mascot:
                         pass
         except Exception:
             pass
+
+    def _apply_autostart_mac(self):
+        """~/Library/LaunchAgents 에 plist를 쓰거나 지운다 (맥 로그인 자동 실행)."""
+        try:
+            label = "com.ena.mascot." + self.char.replace("parts_", "")
+            d = os.path.expanduser("~/Library/LaunchAgents")
+            path = os.path.join(d, label + ".plist")
+            if not self.us.get("autostart", True):
+                if os.path.exists(path):
+                    os.remove(path)
+                return
+            os.makedirs(d, exist_ok=True)
+            app = sys.executable                  # .app 번들이면 open -a 로 실행
+            while app and app != "/" and not app.endswith(".app"):
+                app = os.path.dirname(app)
+            args = ["/usr/bin/open", "-a", app] if app.endswith(".app")                 else [sys.executable]
+            out = ['<?xml version="1.0" encoding="UTF-8"?>',
+                   '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"'
+                   ' "http://www.apple.com/DTDs/PropertyList-1.0.dtd">',
+                   '<plist version="1.0">', '<dict>',
+                   "    <key>Label</key>", f"    <string>{label}</string>",
+                   "    <key>ProgramArguments</key>", "    <array>"]
+            out += [f"        <string>{a}</string>" for a in args]
+            out += ["    </array>", "    <key>RunAtLoad</key>", "    <true/>",
+                    "</dict>", "</plist>", ""]
+            with open(path, "w", encoding="utf-8") as fp:
+                fp.write(os.linesep.join(out))
+        except Exception:
+            pass
+
 
     def _restart(self):
         import subprocess
@@ -2649,6 +2940,89 @@ class Mascot:
                 os.path.join(HERE, name))
             print("saved", name)
         self.close()
+
+    def _setup_mac_window(self):
+        """맥 투명 창 설정. 방식별로 이미지가 보이는지 달라서 변형을 고를 수 있게 둔다."""
+        mode = os.environ.get("MASCOT_MAC_MODE", "transparent")
+        try:
+            if mode == "opaque":                     # 대조군 (확실히 보임)
+                self.root.config(bg="#808080")
+                return "#808080"
+            if mode == "canvasonly":                 # 창 속성 없이 캔버스만 투명
+                self.root.config(bg="systemTransparent")
+                return "systemTransparent"
+            if mode == "late":                       # 창이 뜬 뒤에 투명 속성 부여
+                self.root.config(bg="systemTransparent")
+                self.root.update_idletasks()
+                self.root.attributes("-transparent", True)
+                return "systemTransparent"
+            if mode == "alpha":                      # 투명 + 알파값으로 합성 경로 변경
+                self.root.attributes("-transparent", True)
+                self.root.config(bg="systemTransparent")
+                self.root.attributes("-alpha", 0.999)
+                return "systemTransparent"
+            if mode == "emptybg":                    # 캔버스 배경색을 비움
+                self.root.attributes("-transparent", True)
+                self.root.config(bg="systemTransparent")
+                return ""
+            self.root.attributes("-transparent", True)   # 기본
+            self.root.config(bg="systemTransparent")
+            return "systemTransparent"
+        except Exception:
+            return TRANSPARENT
+
+    def _mac_borderless(self):
+        """맥에서 제목 표시줄 제거 — Tk 9는 overrideredirect만으로는 안 되는 경우가 있다."""
+        if not IS_MAC:
+            return
+        try:
+            self.root.update_idletasks()
+            self.root.overrideredirect(False)
+            self.root.overrideredirect(True)
+        except Exception:
+            pass
+        try:                                   # 그래도 남으면 AppKit으로 직접
+            from AppKit import NSApp
+            self.root.update_idletasks()
+            for w in NSApp.windows():
+                try:
+                    w.setStyleMask_(0)         # NSWindowStyleMaskBorderless
+                    w.setHasShadow_(False)
+                    w.setMovableByWindowBackground_(False)
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    def _dump_debug(self):
+        """맥 진단용 상태 덤프 — 그림이 안 보일 때 원인 좁히기."""
+        try:
+            lines = [f"platform: win={IS_WIN} mac={IS_MAC}",
+                     f"geometry: {self.root.winfo_geometry()} "
+                     f"W={self.W} H={self.H} oy={self.oy} scale={self.s:.3f}",
+                     f"canvas bg={self.canvas_bg} items={len(self.canvas.find_all())}",
+                     f"parts_dir={self.parts_dir}",
+                     f"loaded images={sorted(self.im)}"]
+            for name in sorted(self.im):
+                im = self.im[name]
+                lines.append(f"  {name}: {im.width()}x{im.height()}")
+            kinds = {}
+            for it in self.canvas.find_all():
+                k = self.canvas.type(it)
+                kinds[k] = kinds.get(k, 0) + 1
+            lines.append(f"canvas item kinds: {kinds}")
+            for it in self.canvas.find_all():
+                if self.canvas.type(it) == "image":
+                    lines.append(f"  image at {self.canvas.coords(it)} "
+                                 f"state={self.canvas.itemcget(it, 'state')!r}")
+            with open(os.path.join(self.state_dir, "debug.txt"), "w",
+                      encoding="utf-8") as fp:
+                fp.write(os.linesep.join(lines))
+        except Exception:
+            import traceback
+            with open(os.path.join(self.state_dir, "debug.txt"), "w",
+                      encoding="utf-8") as fp:
+                traceback.print_exc(file=fp)
 
     def run(self):
         self.root.mainloop()
