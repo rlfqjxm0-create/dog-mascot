@@ -6,6 +6,9 @@
  "trail_color": "#888888",
  "hard_alpha": true,
  "timer": {"enabled": true, "idle_sec": 15},
+ "fun": true,
+ "hat_scale": 0.2,
+ "hat_pos": [-62, 78],
  "card": {
   "border": "#3a3a3a",
   "text": "#2b2b2b",
@@ -13,5 +16,7 @@
   "track": "#ececec",
   "fill": "#555555",
   "deco": "dog"
- }
+ },
+ "nose": [511, 678],
+ "pet_scale": 1.3
 }
