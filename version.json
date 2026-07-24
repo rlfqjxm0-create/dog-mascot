@@ -1,7 +1,7 @@
 {
- "version": 1784928100,
+ "version": 1784929131,
  "files": {
-  "mascot.py": "2404386dbb65a43d9d99d5bf63878ace3302f9833e99fef22437256944811ca5",
+  "mascot.py": "e489a223d559b6736a8b2d77674b20dfded836af9ad619380e0a78ed8d491181",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -12,9 +12,14 @@
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
   "parts_dog/head.png": "78d892258df72f2eab35a52cdd56d1b209b7eeea1a5c30b2a17120bdf8c2db39",
-  "parts_dog/layout.json": "3013458b23c934a91389521c48f39e4d44bf3bf1d2c3f20e5386b25caa2404dd",
+  "parts_dog/layout.json": "e4c69f4013419b68e1ee57023ba2864bfeb3d7896317c9161a8b0c358d8af6d5",
   "parts_dog/pet1.png": "5ffd1de9a1aa37ff989b03ed360fecf2e29bc8192d6b57f6f0b5ae8007fd6616",
   "parts_dog/pet2.png": "3691e06b87a41664bc92884888257862e1c958ca0199f0c9eca9fc6c48aa2c1c",
+  "parts_dog/prop1.png": "9c9a9e473d4555c27bd79cf034d8e89f1e24d3ceb135e22af2bd1e9e124eae0f",
+  "parts_dog/prop2.png": "9bc9d054486d8bae5265b8e32578f2775e46a282454d2507d7928bca65e2f139",
+  "parts_dog/prop3.png": "c747b74d6f50d0a99ff15c96512b0fc53865a8796d88df9686442df5a1df7f97",
+  "parts_dog/prop4.png": "04490f5b20b6384e8892f60b8e9631e34058c5afb4fab1fb1f7a5168b3119037",
+  "parts_dog/prop5.png": "fd4b9e93f6425de6e78f43ead115a4ca0b141371fa581e3d4c4c6b321a8313a1",
   "parts_dog/pupils.png": "d78856dad9f0425016ecfbf69566ec72acf236c2721f0f88e696c7f5d39ba1ff",
   "parts_dog/smile.png": "de04e32371ecf81ee3d9aec7849ec3eda46da58c2902178355e8d4da3c4c6509",
   "parts_dog/sounds/apex-pro-tkl-v2_Akira/config.json": "1fc06af40c17bb41cc1c1fd9c22a4cbd88746e55c38bc582400e6cda3aa93ebf",
@@ -77,8 +82,8 @@
   "parts_dog/sounds/tealios-v2_Akira/tab.wav": "0718e9c5b1311b80d3337617d28667297eee897fa56d3d5a1174b94071fbcbf6"
  },
  "notes": [
-  "펜 긋는 소리가 실제 연필 녹음으로 바뀌었어요",
-  "짧게 그으면 짧게, 길게 그으면 길게 이어집니다",
-  "그냥 톡 누르기만 할 때는 소리가 나지 않아요"
+  "켤 때마다 소품이 하나씩 랜덤으로 바뀌어요",
+  "안경, 새싹, 식빵, 뼈, 메롱 다섯 가지가 있어요",
+  "준사 책상 디자인이 새로워졌어요"
  ]
 }
