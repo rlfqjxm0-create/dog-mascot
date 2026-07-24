@@ -1,13 +1,13 @@
 {
- "version": 1784820100,
+ "version": 1784928100,
  "files": {
-  "mascot.py": "421b1ce2123e0a242e34a437948810107cfad1167f1c634aae7875b47595ff65",
+  "mascot.py": "2404386dbb65a43d9d99d5bf63878ace3302f9833e99fef22437256944811ca5",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
   "parts_dog/arm_right_typing.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/body_open.png": "6346b3a30d8107ebe11d872aae4e4b19d7d4c8147ed8d3721d4208accfd41026",
-  "parts_dog/config.json": "1cba786c3a3f6eb52aa60fb0e770820bb5cfe6cf9db9e9c5d097adf90c95ebc4",
+  "parts_dog/config.json": "6f82e89f0efb7198ebd0b5c2aa75bf5ffc14b65a4f7bc9fbc5c00e75a1c8ee6d",
   "parts_dog/desk.png": "349eab6aa1bc9250de42c27b8c7c616b0cf1a0f292c5e116839fb7f0fa850b6e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
@@ -51,9 +51,13 @@
   "parts_dog/sounds/mx-speed-silver/mx-speed-silver-4.wav": "26d49b823ecc46ce057aee649484f39cb13a4e242e72a20855c3a8bfad2581f8",
   "parts_dog/sounds/mx-speed-silver/mx-speed-silver-5.wav": "c2fffe2e89be7f1239f95f7063bceddbef4d7c7730fe4aa94c88e34139f37b51",
   "parts_dog/sounds/mx-speed-silver/mx-speed-silver-6.wav": "2b2dc0ababab084ebc7b9d62a8eaeaefa19c4af8d0bb67172fc486be7d277011",
-  "parts_dog/sounds/pen/clip_1.wav": "470c5a7048d9fcbfd7c0874a8bf8ed40a7bb155cc94468779b8d3a11779b5bab",
-  "parts_dog/sounds/pen/clip_2.wav": "1ced3e4dd195e23dfd3c4b4d60a51e178727db0b168eb25c03e3910def713107",
-  "parts_dog/sounds/pen/clip_3.wav": "c64e63b791c1be84aee9f17deb933676eb0dcf32b8e413866c95c9668198976a",
+  "parts_dog/sounds/pen/clip_1.wav": "aba157ef543fcecfaf25b91f4c2da91b85a09875291e01a0ff55a4fd787c3b46",
+  "parts_dog/sounds/pen/clip_2.wav": "399b26f1cdc53d95916a967913f88ad34ade453dda08ddbc4bd137b09eb1fdd8",
+  "parts_dog/sounds/pen/clip_3.wav": "2053da15a8eab5a95b697532233b3eff3ca6a8d9830c00637c110935581d476f",
+  "parts_dog/sounds/pen/clip_4.wav": "943cc4b728bdb1bea1f0404e3000a710e4d73f9c0183b2efb606b5305e2fbd73",
+  "parts_dog/sounds/pen/clip_5.wav": "52237409b942b76ba313bd20bb8b3222b40a8a87fd33f941c7fd2485b8aa35c8",
+  "parts_dog/sounds/pen/clip_6.wav": "ffdb7c929f56e1f27bca1322413e3355497e013248727ccbe940965686b6144e",
+  "parts_dog/sounds/pen/sustain.wav": "8d6c2a284c4c9c03ce58e97fdb3f8ca2f6a930be01173e7b32987ca8fa5815d8",
   "parts_dog/sounds/Razer Huntman TE - Revolt/config.json": "dd89574e8f02bf832a9fd0e77248a52f0f86fbc4aafca2abf3ea8c4b759fa0f1",
   "parts_dog/sounds/Razer Huntman TE - Revolt/Razer huntman TE.wav": "a9d8bc23f71821e4cdb7212c37275d9f0fc66d9c285e55e13d6829b7f7b438e1",
   "parts_dog/sounds/tealios-v2_Akira/back.wav": "72c5142e29793443f094aad7be3401059752bb956187b58e9c0e145a65937301",
@@ -71,5 +75,10 @@
   "parts_dog/sounds/tealios-v2_Akira/shift.wav": "96ba5efe7c5b612c480d8f1193eeb8fc7a006208badac0a36c0858423b19c9ec",
   "parts_dog/sounds/tealios-v2_Akira/space.wav": "b47b8e94ff0882a8793322ea6275d6447d9bc7f8de2a88791c9631d1164426ba",
   "parts_dog/sounds/tealios-v2_Akira/tab.wav": "0718e9c5b1311b80d3337617d28667297eee897fa56d3d5a1174b94071fbcbf6"
- }
+ },
+ "notes": [
+  "펜 긋는 소리가 실제 연필 녹음으로 바뀌었어요",
+  "짧게 그으면 짧게, 길게 그으면 길게 이어집니다",
+  "그냥 톡 누르기만 할 때는 소리가 나지 않아요"
+ ]
 }
