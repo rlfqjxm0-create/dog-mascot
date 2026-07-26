@@ -1,13 +1,13 @@
 {
- "version": 1785013712,
+ "version": 1785050477,
  "files": {
-  "mascot.py": "9a47691ccbc7dd08d878267c56c84ad054375f5207b753cf90fcf87ffb375b2f",
+  "mascot.py": "36162d4b1be12a7d4f3197ed78a1b684f5c067ad297ad6bdaae629f4c0eda806",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
   "parts_dog/arm_right_typing.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/body_open.png": "6346b3a30d8107ebe11d872aae4e4b19d7d4c8147ed8d3721d4208accfd41026",
-  "parts_dog/config.json": "5fc88242df9ef1fe63ec18ff75b5987e881f2ac9f42060528e3b9ab8ae6a884f",
+  "parts_dog/config.json": "472fcebf0727ca46d14364f95d90c02303439452b76a115bb7d6b29d89886df5",
   "parts_dog/desk.png": "349eab6aa1bc9250de42c27b8c7c616b0cf1a0f292c5e116839fb7f0fa850b6e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
@@ -83,7 +83,7 @@
   "parts_dog/sounds/tealios-v2_Akira/tab.wav": "0718e9c5b1311b80d3337617d28667297eee897fa56d3d5a1174b94071fbcbf6"
  },
  "notes": [
-  "우클릭 메뉴·환경설정·작업 종료 화면의 글자가 화면 배율에 맞게 나옵니다.",
-  "할 일 목록 말풍선을 우클릭하면 '크기 조절'로 목록 크기를 바꿀 수 있습니다."
+  "캐릭터가 상황에 따라 움직입니다 — 인사, 박수, 기지개, 고개짓, 리듬 타기.",
+  "그리거나 타자 치는 중에도 동작이 끊기지 않습니다."
  ]
 }
