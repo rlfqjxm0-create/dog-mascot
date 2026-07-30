@@ -1,13 +1,13 @@
 {
- "version": 1785441288,
+ "version": 1785446188,
  "files": {
-  "mascot.py": "33efd280638df313846b37a29e9987a183c4fa61cfbdc1af0c54ea55681730e2",
+  "mascot.py": "fee8f7d0237e20a3ea45c05c09765c4e2e85229933f660974453d107413b4645",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
   "parts_dog/arm_right_typing.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/body_open.png": "6346b3a30d8107ebe11d872aae4e4b19d7d4c8147ed8d3721d4208accfd41026",
-  "parts_dog/config.json": "296f45403fa4e6dfaa3f99fd37375d40923d49ca90dc93556d0b745fd0f0827a",
+  "parts_dog/config.json": "b6a9de59ebabba389db10cd9aef19250518d3dffc7b45742728deb54ef5ccb48",
   "parts_dog/desk.png": "349eab6aa1bc9250de42c27b8c7c616b0cf1a0f292c5e116839fb7f0fa850b6e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
@@ -101,6 +101,10 @@
   "parts_dog/sounds/tealios-v2_Akira/tab.wav": "0718e9c5b1311b80d3337617d28667297eee897fa56d3d5a1174b94071fbcbf6"
  },
  "notes": [
-  "스트레칭 알림이 뜨지 않던 문제를 고쳤습니다."
+  "마감을 말풍선으로 여러 개 등록할 수 있습니다. 우클릭 → 마감 추가.",
+  "작업 종료 브리핑에 어제·최근 7일·연속 일수가 나오고, 그림으로 저장할 수 있습니다.",
+  "목표 시간을 채우면 축하해 줍니다. 캐릭터 위치도 기억합니다.",
+  "눈·머리카락이 거칠게 보이던 문제를 고쳤습니다.",
+  "모니터가 여러 대면 펜을 따라갈 화면을 고를 수 있습니다."
  ]
 }
