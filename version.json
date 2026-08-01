@@ -1,13 +1,13 @@
 {
- "version": 1785584570,
+ "version": 1785591634,
  "files": {
-  "mascot.py": "d2cea3d1c81494328410e73904bf53fa5b9ca1ffa702c46f7d35783a110c305a",
+  "mascot.py": "faa19b989baac6dcb363838ceae6d2bc0d0744980ca0047f6b6df02626eddf09",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
   "parts_dog/arm_right_typing.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/body_open.png": "6346b3a30d8107ebe11d872aae4e4b19d7d4c8147ed8d3721d4208accfd41026",
-  "parts_dog/config.json": "b2d0a7fc3fcac19d074b8d7008f7b4e8e5d94299290f1ab9ec2701e68d6847bd",
+  "parts_dog/config.json": "d8d15489288956466a6f7ca25c1f2250851846179eb55d5c8a7d248b78c456ab",
   "parts_dog/desk.png": "349eab6aa1bc9250de42c27b8c7c616b0cf1a0f292c5e116839fb7f0fa850b6e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
@@ -100,5 +100,8 @@
   "parts_dog/sounds/tealios-v2_Akira/space.wav": "b47b8e94ff0882a8793322ea6275d6447d9bc7f8de2a88791c9631d1164426ba",
   "parts_dog/sounds/tealios-v2_Akira/tab.wav": "0718e9c5b1311b80d3337617d28667297eee897fa56d3d5a1174b94071fbcbf6"
  },
- "notes": []
+ "notes": [
+  "모션이 추가되었어요.",
+  "움직일 때 선이 거칠어지던 것을 고쳤어요."
+ ]
 }
