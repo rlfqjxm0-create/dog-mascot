@@ -1,18 +1,18 @@
 {
- "version": 1785884253,
+ "version": 1786043091,
  "files": {
-  "mascot.py": "9c046beca3f34af773e79e314ac143429f07278b69874717db071b222f87c059",
+  "mascot.py": "a8e33e4ca88f05919f3371ba021808b160a151de25ba9939e217a01806e86982",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
   "parts_dog/arm_right_typing.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/body_open.png": "6346b3a30d8107ebe11d872aae4e4b19d7d4c8147ed8d3721d4208accfd41026",
-  "parts_dog/config.json": "d8d15489288956466a6f7ca25c1f2250851846179eb55d5c8a7d248b78c456ab",
-  "parts_dog/desk.png": "349eab6aa1bc9250de42c27b8c7c616b0cf1a0f292c5e116839fb7f0fa850b6e",
+  "parts_dog/config.json": "91fe8ac6663412278d567574f5e35ce7e1249430a7ce291800f4c33026466538",
+  "parts_dog/desk.png": "186ce01e3f5ceab30a442f948123b7e57017f0c71c76a5456cac70f5b692ce5e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
   "parts_dog/head.png": "78d892258df72f2eab35a52cdd56d1b209b7eeea1a5c30b2a17120bdf8c2db39",
-  "parts_dog/layout.json": "e4c69f4013419b68e1ee57023ba2864bfeb3d7896317c9161a8b0c358d8af6d5",
+  "parts_dog/layout.json": "998b73aa23762e3ccf9a094ec341e6d2bde2e30bae595fa8f850f16b67515c25",
   "parts_dog/pet1.png": "5ffd1de9a1aa37ff989b03ed360fecf2e29bc8192d6b57f6f0b5ae8007fd6616",
   "parts_dog/pet2.png": "3691e06b87a41664bc92884888257862e1c958ca0199f0c9eca9fc6c48aa2c1c",
   "parts_dog/prop1.png": "9c9a9e473d4555c27bd79cf034d8e89f1e24d3ceb135e22af2bd1e9e124eae0f",
@@ -20,6 +20,12 @@
   "parts_dog/prop3.png": "c747b74d6f50d0a99ff15c96512b0fc53865a8796d88df9686442df5a1df7f97",
   "parts_dog/prop4.png": "04490f5b20b6384e8892f60b8e9631e34058c5afb4fab1fb1f7a5168b3119037",
   "parts_dog/prop5.png": "fd4b9e93f6425de6e78f43ead115a4ca0b141371fa581e3d4c4c6b321a8313a1",
+  "parts_dog/prop6.png": "fae34aa21b87d8c597f5eee60027df3f9eb40f17241394dba2dfca11c20e267b",
+  "parts_dog/prop7.png": "5c590db3a03344f73c7d0becdb9f7b9371d0dc478a8c3ec1a174824815805f1a",
+  "parts_dog/prop7_back.png": "26f3d7630fa1e1c9849da49b1045cc3a88479619c2154ca613be0919676fc36f",
+  "parts_dog/prop8.png": "946d9c8e69fc10b7c6a6b4ae8d1788dae303f8bd2b0b87d9a803278f080de172",
+  "parts_dog/prop8_back.png": "62fc3272eed80d719602ffedb582b36d4f5909ea8d8f9f8de5b96a932cffeb84",
+  "parts_dog/prop9.png": "f3708e680e77d73e8dc34c27aaee073fbcd13360925a9ed6747a615b8bacd599",
   "parts_dog/pupils.png": "d78856dad9f0425016ecfbf69566ec72acf236c2721f0f88e696c7f5d39ba1ff",
   "parts_dog/smile.png": "de04e32371ecf81ee3d9aec7849ec3eda46da58c2902178355e8d4da3c4c6509",
   "parts_dog/sounds/apex-pro-tkl-v2_Akira/config.json": "1fc06af40c17bb41cc1c1fd9c22a4cbd88746e55c38bc582400e6cda3aa93ebf",
@@ -176,7 +182,6 @@
   "parts_dog/sounds/tealios-v2_Akira/tab.wav": "0718e9c5b1311b80d3337617d28667297eee897fa56d3d5a1174b94071fbcbf6"
  },
  "notes": [
-  "오래 켜 두어도 메모리를 덜 쓰도록 다듬었어요.",
-  "일시적인 문제로 캐릭터 일부가 잠깐 안 보이면 스스로 되돌아오게 했어요."
+  "새로운 소품 파츠가 추가됐어요. 켤 때마다 랜덤으로 하나씩 나옵니다."
  ]
 }
