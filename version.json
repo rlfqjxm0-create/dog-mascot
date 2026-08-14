@@ -1,7 +1,7 @@
 {
- "version": 1786694479,
+ "version": 1786695569,
  "files": {
-  "mascot.py": "c490f35c5dc874ece4d6be21451f79098da8ac1c009ee9e823484e4d01b0c5e6",
+  "mascot.py": "7e6925a09b7253036500effef4bab583907b1f4e78bf929b813b09da53600f73",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -27,8 +27,11 @@
   "parts_dog/prop8_back.png": "62fc3272eed80d719602ffedb582b36d4f5909ea8d8f9f8de5b96a932cffeb84",
   "parts_dog/prop9.png": "f3708e680e77d73e8dc34c27aaee073fbcd13360925a9ed6747a615b8bacd599",
   "parts_dog/pupils.png": "d78856dad9f0425016ecfbf69566ec72acf236c2721f0f88e696c7f5d39ba1ff",
-  "parts_dog/seat.png": "f3c219ca97168f5f9476305fa33ffc2b87403ca42c10964f72ebbfa34fac3952",
-  "parts_dog/seat_idle.png": "9cb9352e8c5c1c4333e24adb9f70a099c08c5e9a15bd62fec2dad95be3241ac7",
+  "parts_dog/seat.png": "ba7f3fc9fe7f9b60cd487a4fcc6f7861c40654c48f9248d4a84fcde8675a70d1",
+  "parts_dog/seat_idle.png": "7bcbd4657f8573b4fa8cd543796b713a473cce28e2845d5f87dd4140390f9a33",
+  "parts_dog/seat_pen.png": "9a84ee605201bcccca39252e0cc10b1b5c26e95c409b0df8701de5d94393a014",
+  "parts_dog/seat_pen2.png": "83ab05bbc19c471c87d20adc9a2ed93681556309b203b5c44450369af3d125b9",
+  "parts_dog/seat_type.png": "5acf99dfbad3590b84ffc31d06fe5c4c322533c7ac08cf37a9717728295440a5",
   "parts_dog/smile.png": "de04e32371ecf81ee3d9aec7849ec3eda46da58c2902178355e8d4da3c4c6509",
   "parts_dog/sounds/apex-pro-tkl-v2_Akira/config.json": "1fc06af40c17bb41cc1c1fd9c22a4cbd88746e55c38bc582400e6cda3aa93ebf",
   "parts_dog/sounds/apex-pro-tkl-v2_Akira/enter.wav": "fe7998dabcc579dd88b8ecb3b22f942efc880bd75f9794b792a41f5c10b51ef3",
