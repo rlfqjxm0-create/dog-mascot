@@ -1,7 +1,7 @@
 {
- "version": 1786762005,
+ "version": 1786834154,
  "files": {
-  "mascot.py": "b5921d786a3f482de26df4bbc979f0a0b14a8c6f7dbcd370e67ac5363553818b",
+  "mascot.py": "5e3e1c67fcf55493e9c6e480391fd0e50d42c25776a8264f8a82180e0ea440a7",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -12,10 +12,15 @@
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
   "parts_dog/head.png": "78d892258df72f2eab35a52cdd56d1b209b7eeea1a5c30b2a17120bdf8c2db39",
-  "parts_dog/layout.json": "998b73aa23762e3ccf9a094ec341e6d2bde2e30bae595fa8f850f16b67515c25",
+  "parts_dog/layout.json": "806a7b1a975106b58e71a71fb53b8fa86bc7a24a6af2bc439bb7c3a6f24f1dfa",
   "parts_dog/pet1.png": "5ffd1de9a1aa37ff989b03ed360fecf2e29bc8192d6b57f6f0b5ae8007fd6616",
   "parts_dog/pet2.png": "3691e06b87a41664bc92884888257862e1c958ca0199f0c9eca9fc6c48aa2c1c",
   "parts_dog/prop1.png": "9c9a9e473d4555c27bd79cf034d8e89f1e24d3ceb135e22af2bd1e9e124eae0f",
+  "parts_dog/prop10_back.png": "9c151b667a305e0b40917014640ebb0b599d65f77fbb44f467f973eb245a4198",
+  "parts_dog/prop11.png": "5018d089066acf04ff2118046d99d1112eacb9819345988f562674b49035022f",
+  "parts_dog/prop12.png": "8695e3a96e06a2f1ccd88c656e3b89849b01d63ee78fd97f7ca1f855ad55e541",
+  "parts_dog/prop13.png": "bbaebf0dc58a636cb546e649a7c913815220dd0d3ba356f9e9b4ce133619afb7",
+  "parts_dog/prop14.png": "f287103ec83d2880ec7352fb85842da7b68c7b9c72c68858cd6b44c94268323f",
   "parts_dog/prop2.png": "9bc9d054486d8bae5265b8e32578f2775e46a282454d2507d7928bca65e2f139",
   "parts_dog/prop3.png": "c747b74d6f50d0a99ff15c96512b0fc53865a8796d88df9686442df5a1df7f97",
   "parts_dog/prop4.png": "04490f5b20b6384e8892f60b8e9631e34058c5afb4fab1fb1f7a5168b3119037",
@@ -27,12 +32,12 @@
   "parts_dog/prop8_back.png": "62fc3272eed80d719602ffedb582b36d4f5909ea8d8f9f8de5b96a932cffeb84",
   "parts_dog/prop9.png": "f3708e680e77d73e8dc34c27aaee073fbcd13360925a9ed6747a615b8bacd599",
   "parts_dog/pupils.png": "d78856dad9f0425016ecfbf69566ec72acf236c2721f0f88e696c7f5d39ba1ff",
-  "parts_dog/seat.png": "d2d4de66a234c79ba7e7f60f3781a78249027098003178db782fdd078c205638",
-  "parts_dog/seat_idle.png": "7db30fdfe258b47da6c4f431d51d90aebe494e77dfebc2e0146ed693ac065ddd",
-  "parts_dog/seat_meta.json": "13728d6471e4d188baf7fdd18a5882ccd7b42fc40f5b48263a749151ff4e94b3",
-  "parts_dog/seat_pen.png": "c2c1cb50c294a28e65b27f88ea948c677b54cefcd854c09721686a21de03aa47",
-  "parts_dog/seat_pen2.png": "814a62d988c209c00034cd67c266a6a9256cacc690c9ea21297f21cc5fbf6546",
-  "parts_dog/seat_type.png": "ca582b4b12fd3bca09d821bb1f5b9efdfd3633d72365fbca5b8b557980ce7cc7",
+  "parts_dog/seat.png": "b0661d393cd01ecba06590d4f872fabf021e478273062f8ff4a5a153fd736039",
+  "parts_dog/seat_idle.png": "1094bf444a17efbc39915f7b738fb8e672c2bc9beacde98fc246b18806441b17",
+  "parts_dog/seat_meta.json": "048edcf6ab7f4ce3bf90ad0035aec2e8e5fc1b9d16808337b73cf41becc58d9d",
+  "parts_dog/seat_pen.png": "f9830e6daec02b16c863042847fb47bfbd63e915aff4702a27e7bf2e0ee8fbc0",
+  "parts_dog/seat_pen2.png": "aecf25a727c50d513531a183fdb4bfbec423142584d3d8b3dde547bfee39a6fa",
+  "parts_dog/seat_type.png": "05c92af031a5186e233be579692c5b4da92cd2a174b2f40e806cf8a722fb55a1",
   "parts_dog/smile.png": "de04e32371ecf81ee3d9aec7849ec3eda46da58c2902178355e8d4da3c4c6509",
   "parts_dog/snacks/apple.png": "150520add67ecd14f0deeeb3f658c30c21eaf93ad970460d7747e0dcf13a74c3",
   "parts_dog/snacks/banana.png": "bc9497f204048d4f825f1c3a818e6684c1eec82192bf8164fc4d3300b9dc5bc2",
@@ -292,6 +297,8 @@
   "stickers/__init__.py": "d77e3dc92cb353dced8d192c140643c6458bc3901facdf2e0a0d0830fa4244b7",
   "youtube_player.py": "33dd7fc8cf781b8b8a37c1a60a54b7506ebce5b44399d28fc0841d143d19e70c"
  },
- "notes": [],
- "silent": true
+ "notes": [
+  "타이머 안정성",
+  "소품 추가"
+ ]
 }
