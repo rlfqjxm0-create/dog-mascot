@@ -1,7 +1,7 @@
 {
- "version": 1786836708,
+ "version": 1786837363,
  "files": {
-  "mascot.py": "d41e2f26686a3096a1cb9c600e02dede82ade40dbf8622e6a5ad4faf5b142dd2",
+  "mascot.py": "b0804ce91432bb494b3792a6fb230b024389e81ee2f1a065cae2c8aa3296e216",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -10,6 +10,7 @@
   "parts_dog/config.json": "5700af91cf375c7ae5a3a8730a30d1d87f71d68d850c49b887b72e16e7ab6341",
   "parts_dog/desk.png": "186ce01e3f5ceab30a442f948123b7e57017f0c71c76a5456cac70f5b692ce5e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
+  "parts_dog/hand.png": "14fcba700a6266576b2d5a5e8d6aa308f53ff0d00008e93ee51526d08eec067f",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
   "parts_dog/head.png": "78d892258df72f2eab35a52cdd56d1b209b7eeea1a5c30b2a17120bdf8c2db39",
   "parts_dog/layout.json": "806a7b1a975106b58e71a71fb53b8fa86bc7a24a6af2bc439bb7c3a6f24f1dfa",
