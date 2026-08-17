@@ -1,13 +1,13 @@
 {
- "version": 1786990261,
+ "version": 1786990615,
  "files": {
-  "mascot.py": "cb5edc0efeed1069183a9fb7b665f75958fc20f274afcc9e26dd3df1bcf6de0f",
+  "mascot.py": "274b1a8bfbc47d88fd218de33f3727d1286166bfd7301ec66921e0a4baf1ccf0",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
   "parts_dog/arm_right_typing.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/body_open.png": "6346b3a30d8107ebe11d872aae4e4b19d7d4c8147ed8d3721d4208accfd41026",
-  "parts_dog/config.json": "be275c6e48c01539858c9ff8b701edc40469658b59e75654aa7ac178f7cafcb1",
+  "parts_dog/config.json": "d1f01eb9c81c522be0c67dc90a74c2dce4ac0838c0b940c0ff7546cae51473dc",
   "parts_dog/crown.png": "b1b7426a0222ac294a782cb06db6c9c4aba4e660591dd1761dc9e4da050175fc",
   "parts_dog/desk.png": "186ce01e3f5ceab30a442f948123b7e57017f0c71c76a5456cac70f5b692ce5e",
   "parts_dog/eyes_closed.png": "d720dd67ce2673ac425a4a7bd55fa3c5ca294d487eec5a4185e71f11d21256f4",
