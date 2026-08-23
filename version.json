@@ -1,7 +1,7 @@
 {
- "version": 1787429467,
+ "version": 1787488980,
  "files": {
-  "mascot.py": "f6ca06488290a5b56ded35d11c1e406e57f83ed23f43322ba2a03452f8c427f4",
+  "mascot.py": "594c9bff085bf96fe5528c32f446f654e443aad676dd092350291cd77e9f85bf",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -476,8 +476,10 @@
   "stickers/sticker_icon.ico": "e1ced0f5c5cd1b963ebfad7d839b5b1d78959ac0fc37bba5859a40c0afda4221",
   "stickers/textmaker.py": "f75a9e4e9cac8ac120ee2ac3bec6546572e1cb908f3bd6ca6605913b6f18f471",
   "stickers/__init__.py": "d77e3dc92cb353dced8d192c140643c6458bc3901facdf2e0a0d0830fa4244b7",
-  "youtube_player.py": "8fd216056f4f61075a8646a791389b05ad0082c40864d84b16773c2302c74f2d"
+  "youtube_player.py": "958da4bd526d867ec8250db02da4729ceb168664c04419091fe6ebf040122f80"
  },
- "notes": [],
- "silent": true
+ "notes": [
+  "새 친구가 둘 들어왔어요 — 각얼음 깅규와 독사 하독이에요. 홈에서 만나 보세요!",
+  "우클릭 메뉴에 '오류 기록 폴더 열기'가 생겼어요. 뭔가 안 될 때 보내 주실 파일을 바로 찾을 수 있어요."
+ ]
 }
