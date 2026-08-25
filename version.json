@@ -1,7 +1,7 @@
 {
- "version": 1787615173,
+ "version": 1787691666,
  "files": {
-  "mascot.py": "ababc499835b013ae317989896a3e2bcdd66a2669a694f7177bbda851e066e4d",
+  "mascot.py": "fbbd51154d02b797fd8c4927f73b974fc08c82657ef60526e60ec725b2f1ec99",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -20,7 +20,7 @@
   "parts_dog/hand.png": "14fcba700a6266576b2d5a5e8d6aa308f53ff0d00008e93ee51526d08eec067f",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
   "parts_dog/head.png": "78d892258df72f2eab35a52cdd56d1b209b7eeea1a5c30b2a17120bdf8c2db39",
-  "parts_dog/layout.json": "22b17e09fcc3ffbe1c9a781e85e74f75b405c438d85dd41e0eb4ee9a74845a54",
+  "parts_dog/layout.json": "cebcb5e8fae65c03649f557ecad3f52547b9bc85095b8ba7fc70bb46a278f214",
   "parts_dog/pet1.png": "5ffd1de9a1aa37ff989b03ed360fecf2e29bc8192d6b57f6f0b5ae8007fd6616",
   "parts_dog/pet2.png": "3691e06b87a41664bc92884888257862e1c958ca0199f0c9eca9fc6c48aa2c1c",
   "parts_dog/prop1.png": "9c9a9e473d4555c27bd79cf034d8e89f1e24d3ceb135e22af2bd1e9e124eae0f",
@@ -44,8 +44,14 @@
   "parts_dog/prop21.png": "66a57bddeeba14b6b5a426b4e2baf9c9d511cbb1091df36fee374157c362adaa",
   "parts_dog/prop21_bit2.png": "d58d2e52c560028a8d2fbd72607d300e4497ab90c74b6f151f75c4ba9e39f840",
   "parts_dog/prop21_bit3.png": "a57385959d741788e857aa42d6234573f4b9abba5b57840da59cc4e0ec120159",
-  "parts_dog/prop22.png": "092c9612f2de892e63710a6451f59cba887d3914fc3d3d0038e7948402e1c1af",
-  "parts_dog/prop23.png": "46b9ab482b8ddb8945d984f7857e5064fd98f8f4dddf605de15ec4149c40a285",
+  "parts_dog/prop22.png": "28e729d8d82117624eb830679e7cd091c1df8b83eff83ca1a7de386bb2b942b2",
+  "parts_dog/prop23.png": "cb83f14658c4b796cd59df4d812a932c8a07bdcb68b77aa5ec5f236e88f04724",
+  "parts_dog/prop24.png": "6aed101301e03516473d862cc9a0d7b88bfd18f83e999c364e0b0d3bd79f942a",
+  "parts_dog/prop24_bit2.png": "25d01c3b2e6d8e4ad4d30f9d12a312eed4e6df8caa8b1f8904b64496cc243afb",
+  "parts_dog/prop25.png": "fa2b0bd486e87df1e54316f78d9c219874aa9fc0fe3fc47c8e38f8cdfaa1832b",
+  "parts_dog/prop25_bit2.png": "0c164a75abb81b157a715c8e560c01331b7256b3f34202c0971183fb6a2dc425",
+  "parts_dog/prop25_bit3.png": "f28b0164c2cc2817a54c3a1f952e18f3dd869695a2c9814b913311cace9a413b",
+  "parts_dog/prop25_bit4.png": "2f7bdf483649d9e2e412f893591ed376924c236b5c8ff94ec4703d5be9d7c029",
   "parts_dog/prop3.png": "c747b74d6f50d0a99ff15c96512b0fc53865a8796d88df9686442df5a1df7f97",
   "parts_dog/prop4.png": "04490f5b20b6384e8892f60b8e9631e34058c5afb4fab1fb1f7a5168b3119037",
   "parts_dog/prop5.png": "fd4b9e93f6425de6e78f43ead115a4ca0b141371fa581e3d4c4c6b321a8313a1",
@@ -484,6 +490,7 @@
   "stickers/__init__.py": "d77e3dc92cb353dced8d192c140643c6458bc3901facdf2e0a0d0830fa4244b7",
   "youtube_player.py": "958da4bd526d867ec8250db02da4729ceb168664c04419091fe6ebf040122f80"
  },
- "notes": [],
- "silent": true
+ "notes": [
+  "새 소품 4종이 왔어요 — 잠자는 고양이(가끔 눈을 뜨고 빤히 봐요), 김이 폴폴 나는 왕만두, 아기 쪽쪽이, 토끼 머리띠. '소품 새로고침'을 누르다 보면 만날 수 있어요."
+ ]
 }
