@@ -1,7 +1,7 @@
 {
- "version": 1787709782,
+ "version": 1787715985,
  "files": {
-  "mascot.py": "018be95a9e3a5d7bb3d8bd20d600d438dc46a9ad7d7710fb8a518fa457c6946c",
+  "mascot.py": "5efb6f5198fe437b2ecbe25ecc283968d6357e03c0184e4e2d104530b016cd86",
   "parts_dog/arm_key.png": "df5e5e6b8b8119295f97b199665d9a922a1eaabe705c6b08300c502a57248313",
   "parts_dog/arm_pen.png": "55a34c827465652e5fa6b06435050b1ee96e3374d064077d07653ffe01f52d16",
   "parts_dog/arm_right.png": "3a837a20908c0b22455de0d2658fe6f43624062ef5c067f78958fc0ab294b492",
@@ -20,7 +20,7 @@
   "parts_dog/hand.png": "14fcba700a6266576b2d5a5e8d6aa308f53ff0d00008e93ee51526d08eec067f",
   "parts_dog/hat.png": "4bd1da80b760cff3694c7b21350e8dce6a177026846dcd737d796ad7560f277f",
   "parts_dog/head.png": "78d892258df72f2eab35a52cdd56d1b209b7eeea1a5c30b2a17120bdf8c2db39",
-  "parts_dog/layout.json": "1f683961b4038886b94cfdbb6fe81712a4f4893ebec008555cf7333a78385a8e",
+  "parts_dog/layout.json": "167ee07d31a1fb93e4898e89de155759cbea71f3fc940cc8081a6224856b5ce7",
   "parts_dog/pet1.png": "5ffd1de9a1aa37ff989b03ed360fecf2e29bc8192d6b57f6f0b5ae8007fd6616",
   "parts_dog/pet2.png": "3691e06b87a41664bc92884888257862e1c958ca0199f0c9eca9fc6c48aa2c1c",
   "parts_dog/prop1.png": "9c9a9e473d4555c27bd79cf034d8e89f1e24d3ceb135e22af2bd1e9e124eae0f",
@@ -54,6 +54,11 @@
   "parts_dog/prop25_bit4.png": "2f7bdf483649d9e2e412f893591ed376924c236b5c8ff94ec4703d5be9d7c029",
   "parts_dog/prop26.png": "14f3f08386dd890152eaf044761924878710df4e9ee0fc3e6bea6259f28a2e21",
   "parts_dog/prop27.png": "8a5e7570a35c1b49c72b92eb1e94a007adef6349cd4975960142aded81cc4a68",
+  "parts_dog/prop28.png": "98024d16abf5792660c55d0e276499afde007670742866f351dd359a885dd153",
+  "parts_dog/prop28_bit2.png": "a5820244665b2f87b9fa7c617111591198d39068c20acef5a51bdfbb3bb7f2a5",
+  "parts_dog/prop28_bit3.png": "6e3f558283ea8dd87db2ef9bf43aee891827df729608e8d14bebce3eb9d46476",
+  "parts_dog/prop28_bit4.png": "43c454e37338b3b603609246c70f637b4c775bb0346e1824228916b6da43a3b6",
+  "parts_dog/prop28_bit5.png": "33625bcc35d6d7096428e01301424e6d9cf2e07ecb1ece66fd71d7c948b55040",
   "parts_dog/prop3.png": "c747b74d6f50d0a99ff15c96512b0fc53865a8796d88df9686442df5a1df7f97",
   "parts_dog/prop4.png": "04490f5b20b6384e8892f60b8e9631e34058c5afb4fab1fb1f7a5168b3119037",
   "parts_dog/prop5.png": "fd4b9e93f6425de6e78f43ead115a4ca0b141371fa581e3d4c4c6b321a8313a1",
@@ -501,6 +506,10 @@
   "stickers/__init__.py": "d77e3dc92cb353dced8d192c140643c6458bc3901facdf2e0a0d0830fa4244b7",
   "youtube_player.py": "0b2e0560b1bf72e55b8ab8623e3083a401842cdafe905a5a0186012617aee9bb"
  },
- "notes": [],
- "silent": true
+ "notes": [
+  "새 소품 4종이 왔어요 — 잠자는 고양이, 김이 폴폴 나는 왕만두, 아기 쪽쪽이, 토끼 머리띠. '소품 새로고침'을 누르다 보면 만날 수 있어요.",
+  "고양이를 클릭하면 야옹 하고 울어요. 고양이 머리를 살살 쓰다듬으면(드래그) 고롱고롱 소리를 내요.",
+  "모두의 플레이리스트에서 퍼오기가 막혀 건너뛰던 곡도 이제 재생돼요. 유튜브 프리미엄을 쓰신다면 음악 메뉴에서 한 번 로그인해 두면 광고 없이 나와요.",
+  "하독의 반려동물 고양이 비비도 있어요! 발과 꼬리를 살랑이는 비비를 클릭하거나 몸을 쓰다듬어 보세요."
+ ]
 }
