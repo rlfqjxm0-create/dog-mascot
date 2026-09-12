@@ -1,5 +1,6 @@
 {
  "themes": true,
+ "dark_theme": true,
  "name": "개",
  "scale": 0.32,
  "screen_quad": [
